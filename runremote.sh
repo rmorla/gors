@@ -1,1 +1,1 @@
-ssh gors@$1 'bash -s' < $2
+ssh $1 'bash -s' < $2
