@@ -29,14 +29,16 @@ add a gors-target entry to your .ssh/config file with access to the target vm
 
 https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client
 
-## addresses
+## IP addresses
 
-We use 192.168.88.0/24 as the management network. The IP of the configuration VM on the management network is 192.168.88.101 (on eth1). We assume the configuration VM has another interface (eth0) which is the default gateway for the VM. If the target VM is on 192.168.88.102, then we configure the default gateway on the target VM as 192.168.88.101 (ip r a default via 192.168.88.101), and setup ip forwarding and NAT on the Configuration VM as follows :
+We use 192.168.88.0/24 as the management network. The IP of the configuration VM on the management network is 192.168.88.101 (on eth1). We assume the configuration VM has another interface (eth0) which is the default gateway for the VM. If the target VM is on 192.168.88.102, then we configure the default gateway on the target VM as 192.168.88.101 and setup ip forwarding and NAT on the Configuration VM as follows :
 
+Config VM:
 - sysctl -w net.ipv4.ip_forward=1
 - iptables -t nat -A POSTROUTING -s 192.168.88.102 -o eth0 -j MASQUERADE
 
-
+Target VM:
+- ip r a default via 192.168.88.101 
 
 
 
