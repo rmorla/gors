@@ -1,3 +1,5 @@
+# to run on top of org1-dmz-nat
+
 sudo docker run -d \
         --name=bind9_myorg_auth \
         --volume /home/gors/etcbind:/etc/bind \
