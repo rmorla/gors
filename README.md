@@ -20,3 +20,10 @@ The configuration VM has two  network interfaces:
 ## Target VMs and other hardware
 
 The Target VMs is where your services are going to be deployed. You need to save a clean snapshot that you can bring back before starting deployment.
+
+
+# setup
+
+add a gors-target entry to your .ssh/config file with access to the target vm 
+
+https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client
