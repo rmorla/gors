@@ -3,6 +3,7 @@ FROM ubuntu:20.04
 RUN apt update && apt install -y vim iproute2 iputils-ping tcpdump iptables dnsutils curl
 # quagga
 RUN apt update && apt install -y quagga systemctl
+RUN apt update && apt install -y telnet
 RUN mkdir -p /var/log/quagga
 RUN chown quagga:quagga /var/log/quagga
 RUN mkdir /run/quagga

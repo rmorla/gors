@@ -2,16 +2,6 @@
 
 # public network
 sudo docker network create public_net --subnet=172.31.255.0/24 --gateway=172.31.255.254
-# internet gateway (in this case for masquerading public addresses)
-# sudo docker run -d --net public_net --ip 172.31.255.1 --cap-add=NET_ADMIN --name internet_gw netubuntu 
-# sudo docker exec internet_gw /bin/bash -c 'ip r a 172.16.123.128/27 via 172.31.255.253'
-# sudo docker exec internet_gw /bin/bash -c 'ip r a 172.16.123.0/27 via 172.31.255.252'
-# sudo docker exec internet_gw /bin/bash -c 'iptables -t nat -F; iptables -t filter -F'
-# sudo docker exec internet_gw /bin/bash -c 'iptables -t filter -A OUTPUT -p icmp --icmp-type 5 -j DROP'
-# sudo docker exec internet_gw /bin/bash -c 'iptables -t nat -A POSTROUTING -s 172.16.123.0/24 -o eth0 -j MASQUERADE'
-# sudo docker exec internet_gw /bin/bash -c 'iptables -t filter -P FORWARD DROP'
-# sudo docker exec internet_gw /bin/bash -c 'iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT'
-# sudo docker exec internet_gw /bin/bash -c 'iptables -A FORWARD -m state --state NEW -i eth0 -j ACCEPT'
 
 # org1 nets
 sudo docker network create org1_int1_net --subnet=10.0.1.0/29 --gateway=10.0.1.1
