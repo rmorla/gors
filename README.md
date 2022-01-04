@@ -17,9 +17,13 @@ The configuration VM has two  network interfaces:
 - One interface that connects to the public network ; this allows the deployment user to connect to the VM, and to provide Internet connection for the target VMs
 - One interface that connects to the management network ; this network allows the configuration VM to provision the target VMs, but can also be used for the network management services 
 
-## Target VMs and other hardware
+## Target VMs
 
 The Target VMs is where your services are going to be deployed. You need to save a clean snapshot that you can bring back before starting deployment.
+
+## Connecting to other hardware 
+
+We want to be able to connect our virtual setups with physical equipment like switches, routers, firewalls, etc. To do so we can use the macvlan type of network in docker. This type of network can be bound to a physical ethernet interface on the host. The docker containers that are connected to this macvlan network can access the physical devices that are connected to the other end of the ethernet interface. For example, we can have a DHCP server running in a container and serving IP addresses to PCs and other hardware.
 
 # setup
 
