@@ -19,7 +19,7 @@ The configuration VM has two  network interfaces:
 
 ## Target VMs
 
-The Target VMs is where your services are going to be deployed. You need to save a clean snapshot that you can bring back before starting deployment.
+The Target VMs is where your services are going to be deployed. You need to save a clean snapshot that you can bring back before starting deployment. We assume the target VM is an ubuntu box with user gors.
 
 ## Connecting to other hardware 
 
