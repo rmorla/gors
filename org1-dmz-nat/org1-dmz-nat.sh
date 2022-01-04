@@ -4,7 +4,7 @@ echo ">>>>> networks"
 # public network
 sudo docker network create public_net --subnet=172.31.255.0/24 --gateway=172.31.255.254
 # public network of org1 (DMZ)
-sudo docker network create dmz_net --subnet=172.16.123.128/28 --gateway=172.16.123.129
+sudo docker network create dmz_net --subnet=172.16.123.128/28 --gateway=172.16.123.141
 # private networks of org1
 sudo docker network create client_net --subnet=10.0.1.0/24 --gateway=10.0.1.1
 sudo docker network create server_net --subnet=10.0.2.0/24 --gateway=10.0.2.1
@@ -20,7 +20,7 @@ sudo docker exec server /bin/bash -c 'ip r del default via 10.0.2.1'
 sudo docker exec server /bin/bash -c 'ip r a 10.0.1.0/24 via 10.0.2.254'
 sudo docker exec server /bin/bash -c 'ip r a default via 10.0.2.254'
 sudo docker run -d --net dmz_net --ip 172.16.123.130 --cap-add=NET_ADMIN --name public_server netubuntu 
-sudo docker exec public_server /bin/bash -c 'ip r del default via 172.16.123.129'
+sudo docker exec public_server /bin/bash -c 'ip r del default via 172.16.123.141'
 sudo docker exec public_server /bin/bash -c 'ip r a default via 172.16.123.139'
 sudo docker exec public_server /bin/bash -c 'ip r a 10.0.0.0/8 via 172.16.123.142'
 
@@ -36,7 +36,7 @@ sudo docker exec router /bin/bash -c 'ip r a default via 172.16.123.139'
 echo ">>>>> external router"
 sudo docker run -d --rm --net dmz_net --ip 172.16.123.139 --cap-add=NET_ADMIN --name edgerouter netubuntu 
 sudo docker network connect public_net edgerouter --ip 172.31.255.253
-sudo docker exec edgerouter /bin/bash -c 'ip r d default via 172.16.123.129'
+sudo docker exec edgerouter /bin/bash -c 'ip r d default via 172.16.123.141'
 sudo docker exec edgerouter /bin/bash -c 'ip r a default via 172.31.255.254'
 sudo docker exec edgerouter /bin/bash -c 'ip r a 10.0.0.0/8 via 172.16.123.142'
 sudo docker exec edgerouter /bin/bash -c 'iptables -t nat -F; iptables -t filter -F'
