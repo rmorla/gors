@@ -1,0 +1,2 @@
+/ip dhcp-server disable numbers=0
+/ip address set numbers=0 interface=bridge address=192.168.88.2/24

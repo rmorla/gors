@@ -1,0 +1,19 @@
+/ip service disable telnet,www,ftp,api,api-ssl,winbox
+/ip neighbor discovery-settings set discover-interface-list=none
+/tool mac-server mac-winbox set allowed-interface-list=none
+/tool bandwidth-server set enabled=no
+/ip cloud set update-time=yes
+
+/certificate add name=ca-template days-valid=3650 common-name=192.168.88.1 key-usage=key-cert-sign,crl-sign
+/certificate add name=server-template days-valid=3650 common-name=192.168.88.1
+
+/certificate sign ca-template name=root-ca
+:delay 15s
+/certificate sign ca=root-ca server-template name=server
+:delay 15s
+/certificate set root-ca trusted=yes
+/certificate set server trusted=yes
+/ip service set www-ssl certificate=server disabled=no
+
+#curl -k -u USER:PWD -X PUT https://192.168.88.1/rest/interface/bridge --data '{"name": "test123"}' -H "content-type: application/json"
+#curl -k -u USER:PWD -X PUT https://192.168.88.1/rest/ip/address --data '{"address": "192.168.111.111", "interface": "test123"}' -H "content-type: application/json" 

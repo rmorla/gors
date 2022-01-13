@@ -1,0 +1,11 @@
+# user admin password <enter>
+/user add name=USER group=full password=PWD
+/user remove admin
+/ip ssh set strong-crypto=yes
+
+# copy pub with ftp
+# ftp> put gors-targets.rsa.pub
+user ssh-keys import public-key-file=gors-targets.rsa.pub
+
+/ip dhcp-server disable numbers=0
+/ip address set numbers=0 interface=bridge address=192.168.88.2/24
