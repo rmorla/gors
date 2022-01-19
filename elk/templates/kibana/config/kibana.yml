@@ -1,0 +1,8 @@
+## from https://github.com/elastic/kibana-docker/blob/master/build/kibana/config/kibana.yml
+
+server.name: kibana
+server.host: "0"
+server.port: 5601
+
+elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+

@@ -1,0 +1,79 @@
+version: '3.3'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.1-amd64
+    volumes:
+      - ${ELK_MAIN_HOST_FOLDER}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ${ELK_MAIN_HOST_FOLDER}/elasticdata:/usr/share/elasticsearch/data
+    environment:
+      ES_JAVA_OPTS: "-Xmx1g -Xms1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+            - elk
+    deploy:
+      placement:
+        constraints:
+          - node.hostname==${ELK_MAIN_HOST}
+      
+  kibana:
+    image: docker.elastic.co/kibana/kibana-oss:7.10.1
+    volumes:
+      - ${ELK_MAIN_HOST_FOLDER}/kibana/config/:/usr/share/kibana/config:ro
+    networks:
+            - elk
+    links:
+      - elasticsearch
+    depends_on:
+      - elasticsearch
+    deploy:
+      placement:
+        constraints:
+          - node.hostname==${ELK_MAIN_HOST}
+
+  # logstash:
+  #   image: 10.1.1.1:5000/logstash
+  #   environment:
+  #     #LS_JAVA_OPTS: "-Xmx512m -Xms512m"
+  #     LS_JAVA_OPTS: "-Xmx1g -Xms1g"
+  #   ports:
+  #     - "5044:5044"
+  #   volumes:
+  #     - ${ELK_MAIN_HOST_FOLDER}/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+  #     - ${ELK_MAIN_HOST_FOLDER}/logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+  #   depends_on:
+  #     - elasticsearch
+  #   networks:
+  #           - elk
+  #   deploy:
+  #     placement:
+  #       constraints:
+  #         - node.hostname==${ELK_MAIN_HOST}
+
+  nginx:
+    image: nginx:latest 
+    ports:
+      - "80:80"
+    volumes:
+      - ${ELK_MAIN_HOST_FOLDER}/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${ELK_MAIN_HOST_FOLDER}/nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+            - elk
+    depends_on:
+      - kibana
+      - elasticsearch
+    deploy:
+      placement:
+        constraints:
+          - node.hostname==${ELK_MAIN_HOST}
+
+
+networks:
+  elk:
+    driver: overlay
+    attachable: true
+ 
+ 

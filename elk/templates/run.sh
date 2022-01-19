@@ -1,0 +1,1 @@
+env `cat .env` docker stack deploy -c elk.yml elk
