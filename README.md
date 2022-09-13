@@ -8,10 +8,12 @@ The Configuration VM connects to the Target VMs where you're going to deploy the
 
 Note: the default gateway for the deployed network is part of the deployed components; ideally it should not be the Config VM because the deployed components should run without the Config VM. 
 
+[Diagram of the reference physical setup](physical-setup.pdf)
+
 
 ## Configuration VM and management network
 
-The configuration VM runs any configuration and infrastructure-as-code software that is required for the deployment.
+The configuration VM must run any configuration and infrastructure-as-code software that is required for the deployment.
 
 The configuration VM has two  network interfaces:
 - One interface that connects to the public network ; this allows the deployment user to connect to the VM, and to provide Internet connection for the target VMs
